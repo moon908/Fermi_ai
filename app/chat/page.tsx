@@ -1,13 +1,14 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
 import { Send, User, Bot, Loader2, Sparkles } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Sidebar, SidebarBody, SidebarLink, SidebarFooter } from "@/components/ui/sidebar";
 import { IconLayoutDashboard, IconMessage, IconSettings, IconUser } from "@tabler/icons-react";
-
+import Image from "next/image";
 
 interface Message {
     role: "user" | "assistant";
@@ -33,6 +34,9 @@ const links = [
 ];
 
 function App() {
+    const { user } = useUser();
+    const userImage = user?.imageUrl || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+    const userName = user?.fullName || "User";
 
     const [message, setMessage] = useState("");
     const [chatHistory, setChatHistory] = useState<Message[]>([]);
@@ -90,9 +94,9 @@ function App() {
                         <div className="mt-8 flex flex-col gap-2">
                             <SidebarLink
                                 link={{
-                                    label: "Profile",
+                                    label: userName,
                                     href: "#",
-                                    icon: <IconUser className="text-neutral-700 dark:text-neutral-200 h-6 w-6 flex-shrink-0 " />,
+                                    icon: <Image src={userImage} alt={userName} width={24} height={24} className="rounded-full" />,
                                 }}
                             />
                         </div>

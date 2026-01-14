@@ -42,7 +42,8 @@ const Navigation = () => {
                         <UserButton
                             appearance={{
                                 elements: {
-                                    userButtonAvatarBox: "w-10 h-10 border-2 border-white/10 hover:border-white/30 transition-all",
+                                    userButtonAvatarBox: "w-12 h-12 border-2 border-white/10 hover:border-white/40 transition-all duration-300",
+                                    userButtonTrigger: "hover:scale-110 transition-transform duration-200",
                                     userButtonPopoverCard: "bg-neutral-900 border border-neutral-800 shadow-2xl",
                                     userButtonPopoverActionButtonText: "text-zinc-300",
                                     userButtonPopoverFooter: "hidden"
