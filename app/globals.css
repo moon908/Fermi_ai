@@ -152,3 +152,72 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom Prose Styles for Markdown rendering */
+.prose {
+  @apply text-foreground max-w-none;
+}
+
+.prose p {
+  @apply mb-4 last:mb-0 leading-relaxed;
+}
+
+.prose strong {
+  @apply font-bold text-primary;
+}
+
+.prose ul,
+.prose ol {
+  @apply mb-4 pl-6;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  @apply font-bold text-foreground mt-6 mb-3;
+}
+
+.prose h1 {
+  @apply text-2xl;
+}
+
+.prose h2 {
+  @apply text-xl;
+}
+
+.prose h3 {
+  @apply text-lg;
+}
+
+.prose code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-[0.9em] font-mono;
+}
+
+.prose pre {
+  @apply bg-muted p-4 rounded-xl overflow-x-auto my-4;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-sm;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary/30 pl-4 italic my-4;
+}
+
+.prose a {
+  @apply text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all;
+}

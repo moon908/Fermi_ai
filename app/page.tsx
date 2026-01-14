@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { Send, User, Bot, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
     role: "user" | "assistant";
@@ -54,8 +56,8 @@ function App() {
     return (
         <div className="flex flex-col h-[calc(100vh-(--spacing(16)))] bg-background overflow-hidden">
             {/* Header */}
-            <header className="flex items-center justify-between px-6 py-4 border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-                <div className="flex items-center gap-2">
+            <header className="flex items-center justify-center px-6 py-4 border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+                <div className="flex items-center justify-center gap-2">
                     <div className="p-2 bg-primary/10 rounded-lg">
                         <Sparkles className="w-5 h-5 text-primary" />
                     </div>
@@ -77,7 +79,7 @@ function App() {
                             <Bot className="w-12 h-12 text-muted-foreground" />
                         </div>
                         <div className="max-w-sm space-y-2">
-                            <h2 className="text-xl font-medium">Welcome to VedAI</h2>
+                            <h2 className="text-xl font-medium">Welcome to FermiAI</h2>
                             <p className="text-muted-foreground text-sm">
                                 Ask me anything! I can help with coding, writing, or just having a friendly chat.
                             </p>
@@ -88,18 +90,26 @@ function App() {
                 {chatHistory.map((msg, index) => (
                     <div
                         key={index}
-                        className={`flex w-full items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"
+                        className={`flex w-full items-start gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"
                             }`}
                     >
-                        <div className={`p-2 rounded-full shrink-0 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                        <div className={`p-2.5 rounded-xl shrink-0 shadow-sm transition-transform hover:scale-105 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                             }`}>
-                            {msg.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                            {msg.role === "user" ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
                         </div>
-                        <div className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.role === "user"
+                        <div className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-[15px] leading-relaxed shadow-md transition-all duration-300 hover:shadow-lg ${msg.role === "user"
                             ? "bg-primary text-primary-foreground rounded-tr-none"
-                            : "bg-card border rounded-tl-none"
+                            : "bg-card border-none rounded-tl-none ring-1 ring-neutral-200 dark:ring-neutral-800"
                             }`}>
-                            {msg.content}
+                            {msg.role === "assistant" ? (
+                                <div className="prose prose-sm dark:prose-invert max-w-none">
+                                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                        {msg.content}
+                                    </ReactMarkdown>
+                                </div>
+                            ) : (
+                                msg.content
+                            )}
                         </div>
                     </div>
                 ))}
