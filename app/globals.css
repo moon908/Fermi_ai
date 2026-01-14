@@ -226,3 +226,19 @@ body {
 .prose a {
   @apply text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all;
 }
+
+/* Hide Clerk internal branding and development mode indicators */
+.cl-internal-ph67ez,
+.cl-internal-17y6n79,
+.cl-footer,
+.cl-internal-d9skre {
+  display: none !important;
+}
+
+[data-clerk-branding="true"] {
+  display: none !important;
+}
+
+.cl-internal-b3fm6y {
+  display: none !important;
+}

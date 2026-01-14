@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import { Sidebar, SidebarBody, SidebarLink, SidebarFooter } from "@/components/ui/sidebar";
 import { IconLayoutDashboard, IconMessage, IconSettings, IconUser } from "@tabler/icons-react";
 
+
 interface Message {
     role: "user" | "assistant";
     content: string;
@@ -32,6 +33,7 @@ const links = [
 ];
 
 function App() {
+
     const [message, setMessage] = useState("");
     const [chatHistory, setChatHistory] = useState<Message[]>([]);
     const [loading, setLoading] = useState(false);
