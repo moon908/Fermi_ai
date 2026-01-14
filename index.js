@@ -17,7 +17,7 @@ app.post("/chat", async (req, res) => {
     const { message } = req.body;
 
     const completion = await groq.chat.completions.create({
-        model: "llama-3.1-8b-instant",
+        model: "llama-3.3-70b-versatile",
         messages: [{ role: "user", content: message }],
     });
 
