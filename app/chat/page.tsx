@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Sidebar, SidebarBody, SidebarLink, SidebarFooter } from "@/components/ui/sidebar";
-import { IconLayoutDashboard, IconMessage, IconSettings, IconUser } from "@tabler/icons-react";
+import { IconLayoutDashboard, IconMessage, IconSettings } from "@tabler/icons-react";
 import Image from "next/image";
 
 interface Message {
@@ -64,13 +64,44 @@ function App() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ message: userMessage }),
+                body: JSON.stringify({
+                    message: userMessage,
+                    history: chatHistory
+                }),
             });
 
             if (!res.ok) throw new Error("Failed to fetch response");
 
-            const data = await res.json();
-            setChatHistory(prev => [...prev, { role: "assistant", content: data.reply }]);
+            // Create a temporary assistant message to update as data comes in
+            setChatHistory(prev => [...prev, { role: "assistant", content: "" }]);
+
+            const reader = res.body?.getReader();
+            const decoder = new TextDecoder();
+            let assistantMessage = "";
+
+            if (reader) {
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    assistantMessage += chunk;
+
+                    // Add a small delay for a natural typing effect
+                    await new Promise(resolve => setTimeout(resolve, 63));
+
+                    setChatHistory(prev => {
+                        const newHistory = [...prev];
+                        if (newHistory.length > 0) {
+                            newHistory[newHistory.length - 1] = {
+                                ...newHistory[newHistory.length - 1],
+                                content: assistantMessage
+                            };
+                        }
+                        return newHistory;
+                    });
+                }
+            }
         } catch (error) {
             console.error("Chat error:", error);
             setChatHistory(prev => [...prev, { role: "assistant", content: "Sorry, I encountered an error. Please check if the backend is running." }]);

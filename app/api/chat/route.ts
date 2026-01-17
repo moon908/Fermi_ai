@@ -7,20 +7,39 @@ const groq = new Groq({
 
 export async function POST(req: Request) {
     try {
-        const { message } = await req.json();
+        const { message, history } = await req.json();
 
         if (!message) {
             return NextResponse.json({ error: "Message is required" }, { status: 400 });
         }
 
-        const completion = await groq.chat.completions.create({
+        const messages = [
+            ...(history || []),
+            { role: "user", content: message },
+        ];
+
+        const stream = await groq.chat.completions.create({
             model: "llama-3.3-70b-versatile",
-            messages: [{ role: "user", content: message }],
+            messages,
+            stream: true,
         });
 
-        const reply = completion.choices[0]?.message?.content || "No response from AI.";
+        const encoder = new TextEncoder();
+        const readableStream = new ReadableStream({
+            async start(controller) {
+                for await (const chunk of stream) {
+                    const content = chunk.choices[0]?.delta?.content || "";
+                    if (content) {
+                        controller.enqueue(encoder.encode(content));
+                    }
+                }
+                controller.close();
+            },
+        });
 
-        return NextResponse.json({ reply });
+        return new Response(readableStream, {
+            headers: { "Content-Type": "text/plain; charset=utf-8" },
+        });
     } catch (error: any) {
         console.error("Groq API Error:", error);
         return NextResponse.json({ error: "Failed to fetch response from AI" }, { status: 500 });
