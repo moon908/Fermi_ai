@@ -5,7 +5,7 @@ import Link from "next/link";
 import { IconArrowRight, IconSparkles } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
-const words = `Meet your new conversation partner—smart, fast, and always ready to help. This chatbot is designed to make your life easier by giving you instant, meaningful answers the moment you ask. Whether you're looking for quick information, creative ideas, or problem-solving help.`;
+const words = `Meet your intelligent medical assistant—precise, reliable, and always here to support your health journey. This AI is designed to provide instant medical insights, symptom guidance, and wellness advice the moment you need it. Whether you're seeking health information, medication reminders, or diagnostic support.`;
 
 export default function Text() {
     const router = useRouter();

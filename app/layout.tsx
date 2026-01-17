@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "FermiAI",
-  description: "Generative AI Chatbot",
+  description: "AI Chatbot for Medical Assistance",
 };
 
 export default function RootLayout({

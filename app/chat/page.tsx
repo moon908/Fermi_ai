@@ -11,6 +11,7 @@ import { IconLayoutDashboard, IconMessage, IconSettings } from "@tabler/icons-re
 import Image from "next/image";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { motion, AnimatePresence } from "motion/react";
+import { useRouter } from "next/navigation";
 
 interface Message {
     role: "user" | "assistant";
@@ -18,6 +19,7 @@ interface Message {
 }
 
 function App() {
+    const router = useRouter();
     const { user } = useUser();
     const userImage = user?.imageUrl || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
     const userName = user?.fullName || "User";
@@ -132,7 +134,8 @@ function App() {
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="flex items-center gap-3 mb-10 px-2"
+                            className="flex items-center gap-3 mb-10 px-2 cursor-pointer"
+                            onClick={() => router.push("/")}
                         >
                             <div className="relative group">
                                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
@@ -216,7 +219,7 @@ function App() {
             <div className="flex flex-col flex-1 h-full bg-background overflow-hidden relative">
                 {/* Header */}
                 <header className="flex items-center justify-center px-6 py-4 border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push("/")}>
                         <div className="p-2 bg-primary/10 rounded-lg">
                             <Sparkles className="w-5 h-5 text-primary" />
                         </div>
