@@ -18,7 +18,7 @@ export default function About() {
                             </span>
                         </span>
                     }
-                    src={`/chatwindow.jpeg`}
+                    src={`/chatwindow.png`}
                     showGradient={false}
                 />
             </div>
